@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE uridef [
+<!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns">
+<!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema">
+<!ENTITY owl "http://www.w3.org/2002/07/owl">
+<!ENTITY xsd "http://www.w3.org/2001/XMLSchema">
+<!ENTITY service "http://www.daml.org/services/owl-s/1.2/Service.owl">
+<!ENTITY profile "http://www.daml.org/services/owl-s/1.2/Profile.owl">
+<!ENTITY process "http://www.daml.org/services/owl-s/1.2/Process.owl">
+<!ENTITY grounding "http://www.daml.org/services/owl-s/1.2/Grounding.owl">
+<!ENTITY restful "http://solutio.in/owlsrestful/RESTfulGrounding.owl">
+<!ENTITY wadl "http://bananaforscale.org/owls-validation/owls-validation.wadl">
+]>
+<rdf:RDF
+    xmlns:rdf="&rdf;#"
+    xmlns:rdfs="&rdfs;#"
+    xmlns:owl="&owl;#"
+    xmlns:xsd="&xsd;#"
+    xmlns:service="&service;#"
+    xmlns:profile="&profile;#"
+    xmlns:process="&process;#"
+    xmlns:grounding="&grounding;#"
+    xmlns:restful="&restful;#"
+    xmlns:wadl="&wadl;#"
+    xml:base="http://bananaforscale.org/owls/services/1.2/primitive_rest_grounding_example.owls">
+
+    <owl:Ontology rdf:about="">
+        <owl:imports rdf:resource="&profile;"/>
+        <owl:imports rdf:resource="&grounding;"/>
+        <owl:imports rdf:resource="&restful;"/>
+    </owl:Ontology>
+
+    <!-- Inputs and outputs -->
+    <process:Input rdf:ID="x">
+        <process:parameterType rdf:datatype="&xsd;#anyURI">&xsd;#double</process:parameterType>
+    </process:Input>
+    <process:Input rdf:ID="y">
+        <process:parameterType rdf:datatype="&xsd;#anyURI">&xsd;#double</process:parameterType>
+    </process:Input>
+    <process:Output rdf:ID="z">
+        <process:parameterType rdf:datatype="&xsd;#anyURI">&xsd;#double</process:parameterType>
+    </process:Output>
+
+    <!-- 
+    ============================================================================
+        Add Service
+    ============================================================================
+    -->
+
+    <!-- Addition Service description -->
+    <service:Service rdf:ID="AddService">
+        <service:presents rdf:resource="#AddProfile"/>
+        <service:describedBy rdf:resource="#AddProcess"/>
+        <service:supports rdf:resource="#AddGrounding"/>
+    </service:Service>
+
+    <!-- Addition Profile description -->
+    <profile:Profile rdf:ID="AddProfile">
+        <service:presentedBy rdf:resource="#AddService"/>
+        <profile:serviceName xml:lang="en">Addition Service</profile:serviceName>
+        <profile:textDescription xml:lang="en">
+            This service adds to numbers together
+        </profile:textDescription>
+        <profile:hasInput rdf:resource="#x"/>
+        <profile:hasInput rdf:resource="#y"/>
+        <profile:hasOutput rdf:resource="#z"/>
+    </profile:Profile>
+
+    <!-- Addition Process description -->
+    <process:AtomicProcess rdf:ID="AddProcess">
+        <service:describes rdf:resource="#AddService"/>
+        <process:hasInput rdf:resource="#x"/>
+        <process:hasInput rdf:resource="#y"/>
+        <process:hasOutput rdf:resource="#z"/>
+    </process:AtomicProcess>
+    
+    <!-- Add WADL Parameters -->
+    <restful:WadlRequestParamMap rdf:ID="wadlAddx">
+        <grounding:owlsParameter rdf:resource="#x"/>
+        <restful:wadlMessageParam rdf:datatype="&xsd;#anyURI">&wadl;#xAdd</restful:wadlMessageParam>
+    </restful:WadlRequestParamMap>
+
+    <restful:WadlRequestParamMap rdf:ID="wadlAddy">
+        <grounding:owlsParameter rdf:resource="#y"/>
+        <restful:wadlMessageParam rdf:datatype="&xsd;#anyURI">&wadl;#yAdd</restful:wadlMessageParam>
+    </restful:WadlRequestParamMap>
+
+    <restful:WadlResponseParamMap rdf:ID="wadlAddz">
+        <grounding:owlsParameter rdf:resource="#z"/>
+        <restful:wadlMessageParam rdf:datatype="&xsd;#anyURI">&wadl;#zAdd</restful:wadlMessageParam>
+    </restful:WadlResponseParamMap>
+
+    <!-- Addition Grounding description -->
+    <restful:WadlGrounding rdf:ID="AddGrounding">
+        <service:supportedBy rdf:resource="#AddService"/>
+        <grounding:hasAtomicProcessGrounding rdf:resource="#AddProcessGrounding"/>
+    </restful:WadlGrounding>
+
+    <!-- Addition Atomic Grounding -->
+    <restful:WadlAtomicProcessGrounding rdf:ID="AddProcessGrounding">
+        <grounding:owlsProcess rdf:resource="#AddProcess"/>
+        <restful:wadlResourceMethod>
+            <restful:WadlResourceMethodRef>
+                <restful:resource rdf:datatype="&xsd;#anyURI">&wadl;#computeAdd</restful:resource>
+                <restful:method rdf:datatype="&xsd;#anyURI">&wadl;#add</restful:method>
+            </restful:WadlResourceMethodRef>
+        </restful:wadlResourceMethod>
+        <restful:wadlDocument rdf:datatype="&xsd;#anyURI">
+            http://localhost:8080/owls-validation/owls-validation.wadl
+        </restful:wadlDocument>
+        <!-- Request Parameters -->
+        <restful:wadlRequestParam rdf:resource="#wadlAddx" />
+        <restful:wadlRequestParam rdf:resource="#wadlAddy"/>
+        <!-- Response Parameters -->
+        <restful:wadlResponseParam rdf:resource="#wadlAddz" />
+    </restful:WadlAtomicProcessGrounding>
+
+    <!-- 
+    ============================================================================
+        Subtract Service
+    ============================================================================
+    -->
+
+    <!-- Subtract Service description -->
+    <service:Service rdf:ID="SubtractService">
+        <service:presents rdf:resource="#SubtractProfile"/>
+        <service:describedBy rdf:resource="#SubtractProcess"/>
+        <service:supports rdf:resource="#SubtractGrounding"/>
+    </service:Service>
+
+    <!-- Subtract Profile description -->
+    <profile:Profile rdf:ID="SubtractProfile">
+        <service:presentedBy rdf:resource="#SubtractService"/>
+        <profile:serviceName xml:lang="en">Subtract Service</profile:serviceName>
+        <profile:textDescription xml:lang="en">
+            This service subtracts one number from another
+        </profile:textDescription>
+        <profile:hasInput rdf:resource="#x"/>
+        <profile:hasInput rdf:resource="#y"/>
+        <profile:hasOutput rdf:resource="#z"/>
+    </profile:Profile>
+
+    <!-- Subtract Process description -->
+    <process:AtomicProcess rdf:ID="SubtractProcess">
+        <service:describes rdf:resource="#SubtractService"/>
+        <process:hasInput rdf:resource="#x"/>
+        <process:hasInput rdf:resource="#y"/>
+        <process:hasOutput rdf:resource="#z"/>
+    </process:AtomicProcess>
+    
+    <!-- Subtract WADL Parameters -->
+    <restful:WadlRequestParamMap rdf:ID="wadlSubtractx">
+        <grounding:owlsParameter rdf:resource="#x"/>
+        <restful:wadlMessageParam rdf:datatype="&xsd;#anyURI">&wadl;#xSubtract</restful:wadlMessageParam>
+    </restful:WadlRequestParamMap>
+
+    <restful:WadlRequestParamMap rdf:ID="wadlSubtracty">
+        <grounding:owlsParameter rdf:resource="#y"/>
+        <restful:wadlMessageParam rdf:datatype="&xsd;#anyURI">&wadl;#ySubtract</restful:wadlMessageParam>
+    </restful:WadlRequestParamMap>
+
+    <restful:WadlResponseParamMap rdf:ID="wadlSubtractz">
+        <grounding:owlsParameter rdf:resource="#z"/>
+        <restful:wadlMessageParam rdf:datatype="&xsd;#anyURI">&wadl;#zSubtract</restful:wadlMessageParam>
+    </restful:WadlResponseParamMap>
+
+    <!-- Subtract Grounding description -->
+    <restful:WadlGrounding rdf:ID="SubtractGrounding">
+        <service:supportedBy rdf:resource="#SubtractService"/>
+        <grounding:hasAtomicProcessGrounding rdf:resource="#SubtractProcessGrounding"/>
+    </restful:WadlGrounding>
+
+    <!-- Subtract Atomic Grounding -->
+    <restful:WadlAtomicProcessGrounding rdf:ID="SubtractProcessGrounding">
+        <grounding:owlsProcess rdf:resource="#SubtractProcess"/>
+        <restful:wadlResourceMethod>
+            <restful:WadlResourceMethodRef>
+                <restful:resource rdf:datatype="&xsd;#anyURI">&wadl;#computeSubtract</restful:resource>
+                <restful:method rdf:datatype="&xsd;#anyURI">&wadl;#subtract</restful:method>
+            </restful:WadlResourceMethodRef>
+        </restful:wadlResourceMethod>
+        <restful:wadlDocument rdf:datatype="&xsd;#anyURI">
+            http://localhost:8080/owls-validation/owls-validation.wadl
+        </restful:wadlDocument>
+        <!-- Request Parameters -->
+        <restful:wadlRequestParam rdf:resource="#wadlSubtractx" />
+        <restful:wadlRequestParam rdf:resource="#wadlSubtracty"/>
+        <!-- Response Parameters -->
+        <restful:wadlResponseParam rdf:resource="#wadlSubtractz" />
+    </restful:WadlAtomicProcessGrounding>
+
+    <!-- 
+    ============================================================================
+        Multiply Service
+    ============================================================================
+    -->
+
+    <!-- Multiply Service description -->
+    <service:Service rdf:ID="MultiplyService">
+        <service:presents rdf:resource="#MultiplyProfile"/>
+        <service:describedBy rdf:resource="#MultiplyProcess"/>
+        <service:supports rdf:resource="#MultiplyGrounding"/>
+    </service:Service>
+
+    <!-- Multiply Profile description -->
+    <profile:Profile rdf:ID="MultiplyProfile">
+        <service:presentedBy rdf:resource="#MultiplyService"/>
+        <profile:serviceName xml:lang="en">Multiply Service</profile:serviceName>
+        <profile:textDescription xml:lang="en">
+            This service multiplys one number by another
+        </profile:textDescription>
+        <profile:hasInput rdf:resource="#x"/>
+        <profile:hasInput rdf:resource="#y"/>
+        <profile:hasOutput rdf:resource="#z"/>
+    </profile:Profile>
+
+    <!-- Multiply Process description -->
+    <process:AtomicProcess rdf:ID="MultiplyProcess">
+        <service:describes rdf:resource="#MultiplyService"/>
+        <process:hasInput rdf:resource="#x"/>
+        <process:hasInput rdf:resource="#y"/>
+        <process:hasOutput rdf:resource="#z"/>
+    </process:AtomicProcess>
+    
+    <!-- Multiply WADL Parameters -->
+    <restful:WadlRequestParamMap rdf:ID="wadlMultiplyx">
+        <grounding:owlsParameter rdf:resource="#x"/>
+        <restful:wadlMessageParam rdf:datatype="&xsd;#anyURI">&wadl;#xMultiply</restful:wadlMessageParam>
+    </restful:WadlRequestParamMap>
+
+    <restful:WadlRequestParamMap rdf:ID="wadlMultiplyy">
+        <grounding:owlsParameter rdf:resource="#y"/>
+        <restful:wadlMessageParam rdf:datatype="&xsd;#anyURI">&wadl;#yMultiply</restful:wadlMessageParam>
+    </restful:WadlRequestParamMap>
+
+    <restful:WadlResponseParamMap rdf:ID="wadlMultiplyz">
+        <grounding:owlsParameter rdf:resource="#z"/>
+        <restful:wadlMessageParam rdf:datatype="&xsd;#anyURI">&wadl;#zMultiply</restful:wadlMessageParam>
+    </restful:WadlResponseParamMap>
+
+    <!-- Multiply Grounding description -->
+    <restful:WadlGrounding rdf:ID="MultiplyGrounding">
+        <service:supportedBy rdf:resource="#MultiplyService"/>
+        <grounding:hasAtomicProcessGrounding rdf:resource="#MultiplyProcessGrounding"/>
+    </restful:WadlGrounding>
+
+    <!-- Multiply Atomic Grounding -->
+    <restful:WadlAtomicProcessGrounding rdf:ID="MultiplyProcessGrounding">
+        <grounding:owlsProcess rdf:resource="#MultiplyProcess"/>
+        <restful:wadlResourceMethod>
+            <restful:WadlResourceMethodRef>
+                <restful:resource rdf:datatype="&xsd;#anyURI">&wadl;#computeMultiply</restful:resource>
+                <restful:method rdf:datatype="&xsd;#anyURI">&wadl;#multiply</restful:method>
+            </restful:WadlResourceMethodRef>
+        </restful:wadlResourceMethod>
+        <restful:wadlDocument rdf:datatype="&xsd;#anyURI">
+            http://localhost:8080/owls-validation/owls-validation.wadl
+        </restful:wadlDocument>
+        <!-- Request Parameters -->
+        <restful:wadlRequestParam rdf:resource="#wadlMultiplyx" />
+        <restful:wadlRequestParam rdf:resource="#wadlMultiplyy"/>
+        <!-- Response Parameters -->
+        <restful:wadlResponseParam rdf:resource="#wadlMultiplyz" />
+    </restful:WadlAtomicProcessGrounding>
+
+    <!-- 
+    ============================================================================
+        Divide Service
+    ============================================================================
+    -->
+
+    <!-- Divide Service description -->
+    <service:Service rdf:ID="DivideService">
+        <service:presents rdf:resource="#DivideProfile"/>
+        <service:describedBy rdf:resource="#DivideProcess"/>
+        <service:supports rdf:resource="#DivideGrounding"/>
+    </service:Service>
+
+    <!-- Divide Profile description -->
+    <profile:Profile rdf:ID="DivideProfile">
+        <service:presentedBy rdf:resource="#DivideService"/>
+        <profile:serviceName xml:lang="en">Divide Service</profile:serviceName>
+        <profile:textDescription xml:lang="en">
+            This service divides one number by another
+        </profile:textDescription>
+        <profile:hasInput rdf:resource="#x"/>
+        <profile:hasInput rdf:resource="#y"/>
+        <profile:hasOutput rdf:resource="#z"/>
+    </profile:Profile>
+
+    <!-- Divide Process description -->
+    <process:AtomicProcess rdf:ID="DivideProcess">
+        <service:describes rdf:resource="#DivideService"/>
+        <process:hasInput rdf:resource="#x"/>
+        <process:hasInput rdf:resource="#y"/>
+        <process:hasOutput rdf:resource="#z"/>
+    </process:AtomicProcess>
+    
+    <!-- Divide WADL Parameters -->
+    <restful:WadlRequestParamMap rdf:ID="wadlDividex">
+        <grounding:owlsParameter rdf:resource="#x"/>
+        <restful:wadlMessageParam rdf:datatype="&xsd;#anyURI">&wadl;#xDivide</restful:wadlMessageParam>
+    </restful:WadlRequestParamMap>
+
+    <restful:WadlRequestParamMap rdf:ID="wadlDividey">
+        <grounding:owlsParameter rdf:resource="#y"/>
+        <restful:wadlMessageParam rdf:datatype="&xsd;#anyURI">&wadl;#yDivide</restful:wadlMessageParam>
+    </restful:WadlRequestParamMap>
+
+    <restful:WadlResponseParamMap rdf:ID="wadlDividez">
+        <grounding:owlsParameter rdf:resource="#z"/>
+        <restful:wadlMessageParam rdf:datatype="&xsd;#anyURI">&wadl;#zDivide</restful:wadlMessageParam>
+    </restful:WadlResponseParamMap>
+
+    <!-- Divide Grounding description -->
+    <restful:WadlGrounding rdf:ID="DivideGrounding">
+        <service:supportedBy rdf:resource="#DivideService"/>
+        <grounding:hasAtomicProcessGrounding rdf:resource="#DivideProcessGrounding"/>
+    </restful:WadlGrounding>
+
+    <!-- Divide Atomic Grounding -->
+    <restful:WadlAtomicProcessGrounding rdf:ID="DivideProcessGrounding">
+        <grounding:owlsProcess rdf:resource="#DivideProcess"/>
+        <restful:wadlResourceMethod>
+            <restful:WadlResourceMethodRef>
+                <restful:resource rdf:datatype="&xsd;#anyURI">&wadl;#computeDivide</restful:resource>
+                <restful:method rdf:datatype="&xsd;#anyURI">&wadl;#divide</restful:method>
+            </restful:WadlResourceMethodRef>
+        </restful:wadlResourceMethod>
+        <restful:wadlDocument rdf:datatype="&xsd;#anyURI">
+            http://localhost:8080/owls-validation/owls-validation.wadl
+        </restful:wadlDocument>
+        <!-- Request Parameters -->
+        <restful:wadlRequestParam rdf:resource="#wadlDividex" />
+        <restful:wadlRequestParam rdf:resource="#wadlDividey"/>
+        <!-- Response Parameters -->
+        <restful:wadlResponseParam rdf:resource="#wadlDividez" />
+    </restful:WadlAtomicProcessGrounding>
+
+</rdf:RDF>

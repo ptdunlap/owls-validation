@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE uridef [
+<!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns">
+<!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema">
+<!ENTITY owl "http://www.w3.org/2002/07/owl">
+<!ENTITY xsd "http://www.w3.org/2001/XMLSchema">
+<!ENTITY service "http://www.daml.org/services/owl-s/1.2/Service.owl">
+<!ENTITY profile "http://www.daml.org/services/owl-s/1.2/Profile.owl">
+<!ENTITY process "http://www.daml.org/services/owl-s/1.2/Process.owl">
+<!ENTITY grounding "http://www.daml.org/services/owl-s/1.2/Grounding.owl">
+]>
+<rdf:RDF
+    xmlns:rdf="&rdf;#"
+    xmlns:rdfs="&rdfs;#"
+    xmlns:owl="&owl;#"
+    xmlns:xsd="&xsd;#"
+    xmlns:service="&service;#"
+    xmlns:profile="&profile;#"
+    xmlns:process="&process;#"
+    xmlns:grounding="&grounding;#"
+    xml:base="http://bananaforscale.org/owls/services/1.2/primitive_soap_grounding_example.owls">
+
+    <owl:Ontology rdf:about="">
+        <owl:imports rdf:resource="&profile;"/>
+        <owl:imports rdf:resource="&grounding;"/>
+    </owl:Ontology>
+
+    <!-- Inputs and outputs -->
+    <process:Input rdf:ID="x">
+        <process:parameterType rdf:datatype="&xsd;#anyURI">&xsd;#double</process:parameterType>
+        <rdfs:label>x</rdfs:label>
+    </process:Input>
+    <process:Input rdf:ID="y">
+        <process:parameterType rdf:datatype="&xsd;#anyURI">&xsd;#double</process:parameterType>
+        <rdfs:label>y</rdfs:label>
+    </process:Input>
+    <process:Output rdf:ID="zAdd">
+        <process:parameterType rdf:datatype="&xsd;#anyURI">&xsd;#double</process:parameterType>
+        <rdfs:label>{"format": "xml", "dataType":"org.bananaforscale.soap.AddResponse"}</rdfs:label>
+    </process:Output>
+    <process:Output rdf:ID="zSub">
+        <process:parameterType rdf:datatype="&xsd;#anyURI">&xsd;#double</process:parameterType>
+        <rdfs:label>{"format": "xml", "dataType":"org.bananaforscale.soap.SubtractResponse"}</rdfs:label>
+    </process:Output>
+    <process:Output rdf:ID="zMul">
+        <process:parameterType rdf:datatype="&xsd;#anyURI">&xsd;#double</process:parameterType>
+        <rdfs:label>{"format": "xml", "dataType":"org.bananaforscale.soap.MultiplyResponse"}</rdfs:label>
+    </process:Output>
+    <process:Output rdf:ID="zDiv">
+        <process:parameterType rdf:datatype="&xsd;#anyURI">&xsd;#double</process:parameterType>
+        <rdfs:label>{"format": "xml", "dataType":"org.bananaforscale.soap.DivideResponse"}</rdfs:label>
+    </process:Output>
+
+    <!-- 
+    ============================================================================
+        Add Service
+    ============================================================================
+    -->
+
+    <!-- Addition Service description -->
+    <service:Service rdf:ID="AddService">
+        <service:presents rdf:resource="#AddProfile"/>
+        <service:describedBy rdf:resource="#AddProcess"/>
+        <service:supports rdf:resource="#AddGrounding"/>
+    </service:Service>
+
+    <!-- Addition Profile description -->
+    <profile:Profile rdf:ID="AddProfile">
+        <service:presentedBy rdf:resource="#AddService"/>
+        <profile:serviceName xml:lang="en">Addition Service</profile:serviceName>
+        <profile:textDescription xml:lang="en">
+            This service adds to numbers together
+        </profile:textDescription>
+        <profile:hasInput rdf:resource="#x"/>
+        <profile:hasInput rdf:resource="#y"/>
+        <profile:hasOutput rdf:resource="#zAdd"/>
+    </profile:Profile>
+
+    <!-- Addition Process description -->
+    <process:AtomicProcess rdf:ID="AddProcess">
+        <service:describes rdf:resource="#AddService"/>
+        <process:hasInput rdf:resource="#x"/>
+        <process:hasInput rdf:resource="#y"/>
+        <process:hasOutput rdf:resource="#zAdd"/>
+    </process:AtomicProcess>
+
+    <!-- Addition Grounding description -->
+    <grounding:WsdlGrounding rdf:ID="AddGrounding">
+        <service:supportedBy rdf:resource="#AddService"/>
+        <grounding:hasAtomicProcessGrounding rdf:resource="#AddProcessGrounding"/>
+    </grounding:WsdlGrounding>
+
+    <!-- Addition Atomic Grounding -->
+    <grounding:WsdlAtomicProcessGrounding rdf:ID="AddProcessGrounding">
+        <grounding:owlsProcess rdf:resource="#AddProcess"/>
+        <grounding:wsdlInput>
+            <grounding:WsdlInputMessageMap>
+                <grounding:wsdlMessagePart rdf:datatype="&xsd;#anyURI">http://localhost:8080/owls-validation/ComputeService?wsdl#x</grounding:wsdlMessagePart>
+                <grounding:owlsParameter rdf:resource="#x"/>
+            </grounding:WsdlInputMessageMap>
+        </grounding:wsdlInput>
+        <grounding:wsdlInput>
+            <grounding:WsdlInputMessageMap>
+                <grounding:wsdlMessagePart rdf:datatype="&xsd;#anyURI">http://localhost:8080/owls-validation/ComputeService?wsdl#y</grounding:wsdlMessagePart>
+                <grounding:owlsParameter rdf:resource="#y"/>
+            </grounding:WsdlInputMessageMap>
+        </grounding:wsdlInput>
+        <grounding:wsdlOutput>
+            <grounding:WsdlOutputMessageMap>
+                <grounding:wsdlMessagePart rdf:datatype="&xsd;#anyURI">http://localhost:8080/owls-validation/ComputeService?wsdl#return</grounding:wsdlMessagePart>
+                <grounding:owlsParameter rdf:resource="#zAdd"/>
+            </grounding:WsdlOutputMessageMap>
+        </grounding:wsdlOutput>
+        <grounding:wsdlOutputMessage rdf:datatype="&xsd;#anyURI">http://soap.bananaforscale.org#addResponse</grounding:wsdlOutputMessage>
+        <grounding:wsdlInputMessage rdf:datatype="&xsd;#anyURI">http://soap.bananaforscale.org#add</grounding:wsdlInputMessage>
+        <grounding:wsdlDocument rdf:datatype="&xsd;#anyURI">http://localhost:8080/owls-validation/ComputeService?wsdl</grounding:wsdlDocument>
+        <grounding:wsdlOperation>
+            <grounding:WsdlOperationRef>
+                <grounding:operation rdf:datatype="&xsd;#anyURI">http://localhost:8080/owls-validation/ComputeService?wsdl#add</grounding:operation>
+            </grounding:WsdlOperationRef>
+        </grounding:wsdlOperation>
+    </grounding:WsdlAtomicProcessGrounding>
+    
+    <!-- 
+    ============================================================================
+        Subtract Service
+    ============================================================================
+    -->
+
+    <!-- Subtract Service description -->
+    <service:Service rdf:ID="SubtractService">
+        <service:presents rdf:resource="#SubtractProfile"/>
+        <service:describedBy rdf:resource="#SubtractProcess"/>
+        <service:supports rdf:resource="#SubtractGrounding"/>
+    </service:Service>
+
+    <!-- Subtract Profile description -->
+    <profile:Profile rdf:ID="SubtractProfile">
+        <service:presentedBy rdf:resource="#SubtractService"/>
+        <profile:serviceName xml:lang="en">Subtractition Service</profile:serviceName>
+        <profile:textDescription xml:lang="en">
+            This service subtracts one number from another
+        </profile:textDescription>
+        <profile:hasInput rdf:resource="#x"/>
+        <profile:hasInput rdf:resource="#y"/>
+        <profile:hasOutput rdf:resource="#zSub"/>
+    </profile:Profile>
+
+    <!-- Subtract Process description -->
+    <process:AtomicProcess rdf:ID="SubtractProcess">
+        <service:describes rdf:resource="#SubtractService"/>
+        <process:hasInput rdf:resource="#x"/>
+        <process:hasInput rdf:resource="#y"/>
+        <process:hasOutput rdf:resource="#zSub"/>
+    </process:AtomicProcess>
+
+    <!-- Subtract Grounding description -->
+    <grounding:WsdlGrounding rdf:ID="SubtractGrounding">
+        <service:supportedBy rdf:resource="#SubtractService"/>
+        <grounding:hasAtomicProcessGrounding rdf:resource="#SubtractProcessGrounding"/>
+    </grounding:WsdlGrounding>
+
+    <!-- Subtract Atomic Grounding -->
+    <grounding:WsdlAtomicProcessGrounding rdf:ID="SubtractProcessGrounding">
+        <grounding:owlsProcess rdf:resource="#SubtractProcess"/>
+        <grounding:wsdlInput>
+            <grounding:WsdlInputMessageMap>
+                <grounding:wsdlMessagePart rdf:datatype="&xsd;#anyURI">http://localhost:8080/owls-validation/ComputeService?wsdl#x</grounding:wsdlMessagePart>
+                <grounding:owlsParameter rdf:resource="#x"/>
+            </grounding:WsdlInputMessageMap>
+        </grounding:wsdlInput>
+        <grounding:wsdlInput>
+            <grounding:WsdlInputMessageMap>
+                <grounding:wsdlMessagePart rdf:datatype="&xsd;#anyURI">http://localhost:8080/owls-validation/ComputeService?wsdl#y</grounding:wsdlMessagePart>
+                <grounding:owlsParameter rdf:resource="#y"/>
+            </grounding:WsdlInputMessageMap>
+        </grounding:wsdlInput>
+        <grounding:wsdlOutput>
+            <grounding:WsdlOutputMessageMap>
+                <grounding:wsdlMessagePart rdf:datatype="&xsd;#anyURI">http://localhost:8080/owls-validation/ComputeService?wsdl#return</grounding:wsdlMessagePart>
+                <grounding:owlsParameter rdf:resource="#zSub"/>
+            </grounding:WsdlOutputMessageMap>
+        </grounding:wsdlOutput>
+        <grounding:wsdlOutputMessage rdf:datatype="&xsd;#anyURI">http://soap.bananaforscale.org#subtractResponse</grounding:wsdlOutputMessage>
+        <grounding:wsdlInputMessage rdf:datatype="&xsd;#anyURI">http://soap.bananaforscale.org#subtract</grounding:wsdlInputMessage>
+        <grounding:wsdlDocument rdf:datatype="&xsd;#anyURI">http://localhost:8080/owls-validation/ComputeService?wsdl</grounding:wsdlDocument>
+        <grounding:wsdlOperation>
+            <grounding:WsdlOperationRef>
+                <grounding:operation rdf:datatype="&xsd;#anyURI">http://localhost:8080/owls-validation/ComputeService?wsdl#subtract</grounding:operation>
+            </grounding:WsdlOperationRef>
+        </grounding:wsdlOperation>
+    </grounding:WsdlAtomicProcessGrounding>
+    
+    <!-- 
+    ============================================================================
+        Multiply Service
+    ============================================================================
+    -->
+
+    <!-- Multiply Service description -->
+    <service:Service rdf:ID="MultiplyService">
+        <service:presents rdf:resource="#MultiplyProfile"/>
+        <service:describedBy rdf:resource="#MultiplyProcess"/>
+        <service:supports rdf:resource="#MultiplyGrounding"/>
+    </service:Service>
+
+    <!-- Multiply Profile description -->
+    <profile:Profile rdf:ID="MultiplyProfile">
+        <service:presentedBy rdf:resource="#MultiplyService"/>
+        <profile:serviceName xml:lang="en">Multiplication Service</profile:serviceName>
+        <profile:textDescription xml:lang="en">
+            This service multiplys one number from another
+        </profile:textDescription>
+        <profile:hasInput rdf:resource="#x"/>
+        <profile:hasInput rdf:resource="#y"/>
+        <profile:hasOutput rdf:resource="#zMul"/>
+    </profile:Profile>
+
+    <!-- Multiply Process description -->
+    <process:AtomicProcess rdf:ID="MultiplyProcess">
+        <service:describes rdf:resource="#MultiplyService"/>
+        <process:hasInput rdf:resource="#x"/>
+        <process:hasInput rdf:resource="#y"/>
+        <process:hasOutput rdf:resource="#zMul"/>
+    </process:AtomicProcess>
+
+    <!-- Multiply Grounding description -->
+    <grounding:WsdlGrounding rdf:ID="MultiplyGrounding">
+        <service:supportedBy rdf:resource="#MultiplyService"/>
+        <grounding:hasAtomicProcessGrounding rdf:resource="#MultiplyProcessGrounding"/>
+    </grounding:WsdlGrounding>
+
+    <!-- Multiply Atomic Grounding -->
+    <grounding:WsdlAtomicProcessGrounding rdf:ID="MultiplyProcessGrounding">
+        <grounding:owlsProcess rdf:resource="#MultiplyProcess"/>
+        <grounding:wsdlInput>
+            <grounding:WsdlInputMessageMap>
+                <grounding:wsdlMessagePart rdf:datatype="&xsd;#anyURI">http://localhost:8080/owls-validation/ComputeService?wsdl#x</grounding:wsdlMessagePart>
+                <grounding:owlsParameter rdf:resource="#x"/>
+            </grounding:WsdlInputMessageMap>
+        </grounding:wsdlInput>
+        <grounding:wsdlInput>
+            <grounding:WsdlInputMessageMap>
+                <grounding:wsdlMessagePart rdf:datatype="&xsd;#anyURI">http://localhost:8080/owls-validation/ComputeService?wsdl#y</grounding:wsdlMessagePart>
+                <grounding:owlsParameter rdf:resource="#y"/>
+            </grounding:WsdlInputMessageMap>
+        </grounding:wsdlInput>
+        <grounding:wsdlOutput>
+            <grounding:WsdlOutputMessageMap>
+                <grounding:wsdlMessagePart rdf:datatype="&xsd;#anyURI">http://localhost:8080/owls-validation/ComputeService?wsdl#return</grounding:wsdlMessagePart>
+                <grounding:owlsParameter rdf:resource="#zMul"/>
+            </grounding:WsdlOutputMessageMap>
+        </grounding:wsdlOutput>
+        <grounding:wsdlOutputMessage rdf:datatype="&xsd;#anyURI">http://soap.bananaforscale.org#multiplyResponse</grounding:wsdlOutputMessage>
+        <grounding:wsdlInputMessage rdf:datatype="&xsd;#anyURI">http://soap.bananaforscale.org#multiply</grounding:wsdlInputMessage>
+        <grounding:wsdlDocument rdf:datatype="&xsd;#anyURI">http://localhost:8080/owls-validation/ComputeService?wsdl</grounding:wsdlDocument>
+        <grounding:wsdlOperation>
+            <grounding:WsdlOperationRef>
+                <grounding:operation rdf:datatype="&xsd;#anyURI">http://localhost:8080/owls-validation/ComputeService?wsdl#multiply</grounding:operation>
+            </grounding:WsdlOperationRef>
+        </grounding:wsdlOperation>
+    </grounding:WsdlAtomicProcessGrounding>
+    
+    <!-- 
+    ============================================================================
+        Divide Service
+    ============================================================================
+    -->
+
+    <!-- Divide Service description -->
+    <service:Service rdf:ID="DivideService">
+        <service:presents rdf:resource="#DivideProfile"/>
+        <service:describedBy rdf:resource="#DivideProcess"/>
+        <service:supports rdf:resource="#DivideGrounding"/>
+    </service:Service>
+
+    <!-- Divide Profile description -->
+    <profile:Profile rdf:ID="DivideProfile">
+        <service:presentedBy rdf:resource="#DivideService"/>
+        <profile:serviceName xml:lang="en">Divideition Service</profile:serviceName>
+        <profile:textDescription xml:lang="en">
+            This service Divides one number from another
+        </profile:textDescription>
+        <profile:hasInput rdf:resource="#x"/>
+        <profile:hasInput rdf:resource="#y"/>
+        <profile:hasOutput rdf:resource="#zDiv"/>
+    </profile:Profile>
+
+    <!-- Divide Process description -->
+    <process:AtomicProcess rdf:ID="DivideProcess">
+        <service:describes rdf:resource="#DivideService"/>
+        <process:hasInput rdf:resource="#x"/>
+        <process:hasInput rdf:resource="#y"/>
+        <process:hasOutput rdf:resource="#zDiv"/>
+    </process:AtomicProcess>
+
+    <!-- Divide Grounding description -->
+    <grounding:WsdlGrounding rdf:ID="DivideGrounding">
+        <service:supportedBy rdf:resource="#DivideService"/>
+        <grounding:hasAtomicProcessGrounding rdf:resource="#DivideProcessGrounding"/>
+    </grounding:WsdlGrounding>
+
+    <!-- Divide Atomic Grounding -->
+    <grounding:WsdlAtomicProcessGrounding rdf:ID="DivideProcessGrounding">
+        <grounding:owlsProcess rdf:resource="#DivideProcess"/>
+        <grounding:wsdlInput>
+            <grounding:WsdlInputMessageMap>
+                <grounding:wsdlMessagePart rdf:datatype="&xsd;#anyURI">http://localhost:8080/owls-validation/ComputeService?wsdl#x</grounding:wsdlMessagePart>
+                <grounding:owlsParameter rdf:resource="#x"/>
+            </grounding:WsdlInputMessageMap>
+        </grounding:wsdlInput>
+        <grounding:wsdlInput>
+            <grounding:WsdlInputMessageMap>
+                <grounding:wsdlMessagePart rdf:datatype="&xsd;#anyURI">http://localhost:8080/owls-validation/ComputeService?wsdl#y</grounding:wsdlMessagePart>
+                <grounding:owlsParameter rdf:resource="#y"/>
+            </grounding:WsdlInputMessageMap>
+        </grounding:wsdlInput>
+        <grounding:wsdlOutput>
+            <grounding:WsdlOutputMessageMap>
+                <grounding:wsdlMessagePart rdf:datatype="&xsd;#anyURI">http://localhost:8080/owls-validation/ComputeService?wsdl#return</grounding:wsdlMessagePart>
+                <grounding:owlsParameter rdf:resource="#zDiv"/>
+            </grounding:WsdlOutputMessageMap>
+        </grounding:wsdlOutput>
+        <grounding:wsdlOutputMessage rdf:datatype="&xsd;#anyURI">http://soap.bananaforscale.org#divideResponse</grounding:wsdlOutputMessage>
+        <grounding:wsdlInputMessage rdf:datatype="&xsd;#anyURI">http://soap.bananaforscale.org#divide</grounding:wsdlInputMessage>
+        <grounding:wsdlDocument rdf:datatype="&xsd;#anyURI">http://localhost:8080/owls-validation/ComputeService?wsdl</grounding:wsdlDocument>
+        <grounding:wsdlOperation>
+            <grounding:WsdlOperationRef>
+                <grounding:operation rdf:datatype="&xsd;#anyURI">http://localhost:8080/owls-validation/ComputeService?wsdl#divide</grounding:operation>
+            </grounding:WsdlOperationRef>
+        </grounding:wsdlOperation>
+    </grounding:WsdlAtomicProcessGrounding>
+    
+</rdf:RDF>

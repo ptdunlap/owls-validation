@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE uridef [
+<!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns">
+<!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema">
+<!ENTITY owl "http://www.w3.org/2002/07/owl">
+<!ENTITY xsd "http://www.w3.org/2001/XMLSchema">
+<!ENTITY service "http://www.daml.org/services/owl-s/1.2/Service.owl">
+<!ENTITY profile "http://www.daml.org/services/owl-s/1.2/Profile.owl">
+<!ENTITY process "http://www.daml.org/services/owl-s/1.2/Process.owl">
+<!ENTITY grounding "http://www.daml.org/services/owl-s/1.2/Grounding.owl">
+<!ENTITY moregr "http://on.cs.unibas.ch/owl-s/1.2/MoreGroundings.owl">
+]>
+<rdf:RDF
+    xmlns:rdf="&rdf;#"
+    xmlns:rdfs="&rdfs;#"
+    xmlns:owl="&owl;#"
+    xmlns:xsd="&xsd;#"
+    xmlns:service="&service;#"
+    xmlns:profile="&profile;#"
+    xmlns:process="&process;#"
+    xmlns:grounding="&grounding;#"
+    xmlns:moregr="&moregr;#"
+    xml:base="http://bananaforscale.org/owls/services/1.2/complex_java_grounding_example.owls">
+
+    <owl:Ontology rdf:about="">
+        <owl:imports rdf:resource="&profile;"/>
+        <owl:imports rdf:resource="&grounding;"/>
+        <owl:imports rdf:resource="&moregr;"/>
+    </owl:Ontology>
+
+    <!-- Inputs and outputs -->
+    <process:Input rdf:ID="Person">
+        <process:parameterType rdf:datatype="&xsd;#anyURI">&owl;#Thing</process:parameterType>
+    </process:Input>
+    <process:Output rdf:ID="Employee">
+        <process:parameterType rdf:datatype="&xsd;#anyURI">&owl;#Thing</process:parameterType>
+    </process:Output>
+
+    <!-- 
+    ============================================================================
+        Employee Service
+    ============================================================================
+    -->
+
+    <!-- Employee Service description -->
+    <service:Service rdf:ID="EmployeeService">
+        <service:presents rdf:resource="#EmployeeProfile"/>
+        <service:describedBy rdf:resource="#EmployeeProcess"/>
+        <service:supports rdf:resource="#EmployeeGrounding"/>
+    </service:Service>
+
+    <!-- Employee Profile description -->
+    <profile:Profile rdf:ID="EmployeeProfile">
+        <service:presentedBy rdf:resource="#EmployeeService"/>
+        <profile:serviceName xml:lang="en">Enroller Service</profile:serviceName>
+        <profile:textDescription xml:lang="en">
+            This service enrolls a person as an employee
+        </profile:textDescription>
+        <profile:hasInput rdf:resource="#Person"/>
+        <profile:hasOutput rdf:resource="#Employee"/>
+    </profile:Profile>
+
+    <!-- Employee Process description -->
+    <process:AtomicProcess rdf:ID="EmployeeProcess">
+        <service:describes rdf:resource="#EmployeeService"/>
+        <process:hasInput rdf:resource="#Person"/>
+        <process:hasOutput rdf:resource="#Employee"/>
+    </process:AtomicProcess>
+
+    <!-- Employee Grounding description -->
+    <moregr:JavaGrounding rdf:ID="EmployeeGrounding">
+        <service:supportedBy rdf:resource="#EmployeeService"/>
+        <grounding:hasAtomicProcessGrounding rdf:resource="#EmployeeProcessGrounding"/>
+    </moregr:JavaGrounding>
+
+    <!-- Employee Atomic Grounding -->
+    <moregr:JavaAtomicProcessGrounding rdf:ID="EmployeeProcessGrounding">
+        <grounding:owlsProcess rdf:resource="#EmployeeProcess"/>
+        <moregr:javaClass>org.bananaforscale.samples.Enroller</moregr:javaClass>
+        <moregr:javaMethod>enroll</moregr:javaMethod>
+        <moregr:hasJavaParameter>
+            <moregr:JavaParameter rdf:ID="EmployeeIn">
+                <moregr:javaType>org.bananaforscale.samples.Person</moregr:javaType>
+                <moregr:owlsParameter rdf:resource="#Person"/>
+                <moregr:paramIndex rdf:datatype="&xsd;#nonNegativeInteger">1</moregr:paramIndex>
+            </moregr:JavaParameter>
+        </moregr:hasJavaParameter>
+        <moregr:javaOutput>
+            <moregr:JavaVariable rdf:ID="EmployeeOut">
+                <moregr:javaType>org.bananaforscale.samples.Employee</moregr:javaType>
+                <moregr:owlsParameter rdf:resource="#Employee"/>
+            </moregr:JavaVariable>
+        </moregr:javaOutput>
+    </moregr:JavaAtomicProcessGrounding>
+</rdf:RDF>

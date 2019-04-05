@@ -1,0 +1,17 @@
+<enunciate 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:noNamespaceSchemaLocation="http://enunciate.webcohesion.com/schemas/enunciate-2.8.0.xsd">
+
+    <title>OWL-S Validation Service</title>
+    <description>
+        Provides service examples from which OWL-S descriptions can be created and executed
+    </description>
+
+    <modules>
+        <jackson1 disabled="true"/>
+        <docs apiRelativePath="../owls-validation/rest/" />
+        <jackson dateFormat="string" />
+        <swagger basePath="/owls-validation/rest" docsSubdir="swagger" />
+    </modules>
+
+</enunciate>

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE uridef [
+<!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns">
+<!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema">
+<!ENTITY owl "http://www.w3.org/2002/07/owl">
+<!ENTITY xsd "http://www.w3.org/2001/XMLSchema">
+<!ENTITY service "http://www.daml.org/services/owl-s/1.2/Service.owl">
+<!ENTITY profile "http://www.daml.org/services/owl-s/1.2/Profile.owl">
+<!ENTITY process "http://www.daml.org/services/owl-s/1.2/Process.owl">
+<!ENTITY grounding "http://www.daml.org/services/owl-s/1.2/Grounding.owl">
+<!ENTITY restful "http://solutio.in/owlsrestful/RESTfulGrounding.owl">
+<!ENTITY wadl "http://bananaforscale.org/owls-validation/owls-validation.wadl">
+]>
+<rdf:RDF
+    xmlns:rdf="&rdf;#"
+    xmlns:rdfs="&rdfs;#"
+    xmlns:owl="&owl;#"
+    xmlns:xsd="&xsd;#"
+    xmlns:service="&service;#"
+    xmlns:profile="&profile;#"
+    xmlns:process="&process;#"
+    xmlns:grounding="&grounding;#"
+    xmlns:restful="&restful;#"
+    xmlns:wadl="&wadl;#"
+    xml:base="http://bananaforscale.org/owls/services/1.2/complex_rest_grounding_example.owls">
+
+    <owl:Ontology rdf:about="">
+        <owl:imports rdf:resource="&profile;"/>
+        <owl:imports rdf:resource="&grounding;"/>
+        <owl:imports rdf:resource="&restful;"/>
+    </owl:Ontology>
+
+    <!-- Inputs and outputs -->
+    <process:Input rdf:ID="Person">
+        <process:parameterType rdf:datatype="&xsd;#anyURI">&xsd;#string</process:parameterType>
+        <rdfs:label>{"format": "json", "dataType":"org.bananaforscale.samples.Person"}</rdfs:label>
+    </process:Input>
+    <process:Output rdf:ID="Employee">
+        <process:parameterType rdf:datatype="&xsd;#anyURI">&xsd;#string</process:parameterType>
+        <rdfs:label>{"format": "json", "dataType":"org.bananaforscale.samples.Employee"}</rdfs:label>
+    </process:Output>
+
+    <!-- 
+    ============================================================================
+        Employee Service
+    ============================================================================
+    -->
+
+    <!-- Employee Service description -->
+    <service:Service rdf:ID="EmployeeService">
+        <service:presents rdf:resource="#EmployeeProfile"/>
+        <service:describedBy rdf:resource="#EmployeeProcess"/>
+        <service:supports rdf:resource="#EmployeeGrounding"/>
+    </service:Service>
+
+    <!-- Employee Profile description -->
+    <profile:Profile rdf:ID="EmployeeProfile">
+        <service:presentedBy rdf:resource="#EmployeeService"/>
+        <profile:serviceName xml:lang="en">Enroller Service</profile:serviceName>
+        <profile:textDescription xml:lang="en">
+            This service enrolls a person as an employee
+        </profile:textDescription>
+        <profile:hasInput rdf:resource="#Person"/>
+        <profile:hasOutput rdf:resource="#Employee"/>
+    </profile:Profile>
+
+    <!-- Employee Process description -->
+    <process:AtomicProcess rdf:ID="EmployeeProcess">
+        <service:describes rdf:resource="#EmployeeService"/>
+        <process:hasInput rdf:resource="#Person"/>
+        <process:hasOutput rdf:resource="#Employee"/>
+    </process:AtomicProcess>
+    
+    <!-- Employee WADL Parameters -->
+    <restful:WadlRequestParamMap rdf:ID="wadlPerson">
+        <grounding:owlsParameter rdf:resource="#Person"/>
+        <restful:wadlMessageParam rdf:datatype="&xsd;#anyURI">&wadl;#person</restful:wadlMessageParam>
+    </restful:WadlRequestParamMap>
+
+    <restful:WadlResponseParamMap rdf:ID="wadlEmployee">
+        <grounding:owlsParameter rdf:resource="#Employee"/>
+        <restful:wadlMessageParam rdf:datatype="&xsd;#anyURI">&wadl;#employee</restful:wadlMessageParam>
+    </restful:WadlResponseParamMap>
+    
+    <!-- Employee Grounding description -->
+    <restful:WadlGrounding rdf:ID="EmployeeGrounding">
+        <service:supportedBy rdf:resource="#EmployeeService"/>
+        <grounding:hasAtomicProcessGrounding rdf:resource="#EmployeeProcessGrounding"/>
+    </restful:WadlGrounding>
+    
+    <!-- Employee Atomic Grounding -->
+    <restful:WadlAtomicProcessGrounding rdf:ID="EmployeeProcessGrounding">
+        <grounding:owlsProcess rdf:resource="#EmployeeProcess"/>
+        <restful:wadlResourceMethod>
+            <restful:WadlResourceMethodRef>
+                <restful:resource rdf:datatype="&xsd;#anyURI">&wadl;#employeeEnroll</restful:resource>
+                <restful:method rdf:datatype="&xsd;#anyURI">&wadl;#enroll</restful:method>
+            </restful:WadlResourceMethodRef>
+        </restful:wadlResourceMethod>
+        <restful:wadlDocument rdf:datatype="&xsd;#anyURI">
+            http://localhost:8080/owls-validation/owls-validation.wadl
+        </restful:wadlDocument>
+        <!-- Request Parameters -->
+        <restful:wadlRequestParam rdf:resource="#wadlPerson" />
+        <!-- Response Parameters -->
+        <restful:wadlResponseParam rdf:resource="#wadlEmployee" />
+    </restful:WadlAtomicProcessGrounding>
+    
+</rdf:RDF>

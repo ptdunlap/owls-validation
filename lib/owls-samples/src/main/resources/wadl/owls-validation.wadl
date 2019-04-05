@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<?enunciate-assumed-base-uri ./?>
+<wadl:application xmlns:wadl="http://wadl.dev.java.net/2009/02" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <wadl:doc xmlns:enunciate="http://enunciate.webcohesion.com/" enunciate:generatedBy="Enunciate-2.0"/>
+  
+    <wadl:grammars>
+    </wadl:grammars>
+
+    <wadl:resources base="http://localhost:8080/owls-validation/rest">
+
+        <wadl:resource id="computeAdd" path="compute/add">
+            <wadl:method id="add" name="GET">
+                <wadl:doc><![CDATA[Adds parameter x to parameter y]]></wadl:doc>
+                <wadl:request>
+                    <wadl:param id="xAdd" name="x" style="query">
+                        <wadl:doc><![CDATA[a numerical value]]></wadl:doc>
+                    </wadl:param>
+                    <wadl:param id="yAdd" name="y" style="query">
+                        <wadl:doc><![CDATA[a numerical value]]></wadl:doc>
+                    </wadl:param>
+                </wadl:request>
+                <wadl:response status="200">
+                    <wadl:doc><![CDATA[the sum of x and y]]></wadl:doc>
+                    <wadl:representation id="zAdd" mediaType="text/plain"/>
+                </wadl:response>
+            </wadl:method>
+        </wadl:resource>
+
+        <wadl:resource id="computeSubtract" path="compute/subtract">
+            <wadl:method id="subtract" name="GET">
+                <wadl:doc><![CDATA[Divides parameter x by parameter y]]></wadl:doc>
+                <wadl:request>
+                    <wadl:param id="xSubtract" name="x" style="query">
+                        <wadl:doc><![CDATA[a numerical value]]></wadl:doc>
+                    </wadl:param>
+                    <wadl:param id="ySubtract" name="y" style="query">
+                        <wadl:doc><![CDATA[a numerical value]]></wadl:doc>
+                    </wadl:param>
+                </wadl:request>
+                <wadl:response status="200">
+                    <wadl:doc><![CDATA[the value of x divided by y]]></wadl:doc>
+                    <wadl:representation id="zSubtract" mediaType="text/plain"/>
+                </wadl:response>
+            </wadl:method>
+        </wadl:resource>
+
+        <wadl:resource id="computeMultiply" path="compute/multiply">
+            <wadl:method id="multiply" name="GET">
+                <wadl:doc><![CDATA[Multiplies parameter x by parameter y]]></wadl:doc>
+                <wadl:request>
+                    <wadl:param id="xMultiply" name="x" style="query">
+                        <wadl:doc><![CDATA[a numerical value]]></wadl:doc>
+                    </wadl:param>
+                    <wadl:param id="yMultiply" name="y" style="query">
+                        <wadl:doc><![CDATA[a numerical value]]></wadl:doc>
+                    </wadl:param>
+                </wadl:request>
+                <wadl:response status="200">
+                    <wadl:doc><![CDATA[the product of x and y]]></wadl:doc>
+                    <wadl:representation id="zMultiply" mediaType="text/plain"/>
+                </wadl:response>
+            </wadl:method>
+        </wadl:resource>
+
+        <wadl:resource id="computeDivide" path="compute/divide">
+            <wadl:method id="divide" name="GET">
+                <wadl:doc><![CDATA[Subtracts parameter y from parameter x]]></wadl:doc>
+                <wadl:request>
+                    <wadl:param id="xDivide" name="x" style="query">
+                        <wadl:doc><![CDATA[a numerical value]]></wadl:doc>
+                    </wadl:param>
+                    <wadl:param id="yDivide" name="y" style="query">
+                        <wadl:doc><![CDATA[a numerical value]]></wadl:doc>
+                    </wadl:param>
+                </wadl:request>
+                <wadl:response status="200">
+                    <wadl:doc><![CDATA[the result of x minus y]]></wadl:doc>
+                    <wadl:representation id="zDivide" mediaType="text/plain"/>
+                </wadl:response>
+            </wadl:method>
+        </wadl:resource>
+
+        <wadl:resource id="employeeEnroll" path="employee/enroll">
+            <wadl:method id="enroll" name="POST">
+                <wadl:doc><![CDATA[]]></wadl:doc>
+                <wadl:request>
+                    <wadl:representation id="person" mediaType="application/json" />
+                </wadl:request>
+                <wadl:response status="200">
+                    <wadl:representation id="employee" mediaType="application/json"/>
+                </wadl:response>
+            </wadl:method>
+        </wadl:resource>
+    </wadl:resources>
+</wadl:application>

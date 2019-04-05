@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE uridef [
+<!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns">
+<!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema">
+<!ENTITY owl "http://www.w3.org/2002/07/owl">
+<!ENTITY xsd "http://www.w3.org/2001/XMLSchema">
+<!ENTITY service "http://www.daml.org/services/owl-s/1.2/Service.owl">
+<!ENTITY profile "http://www.daml.org/services/owl-s/1.2/Profile.owl">
+<!ENTITY process "http://www.daml.org/services/owl-s/1.2/Process.owl">
+<!ENTITY grounding "http://www.daml.org/services/owl-s/1.2/Grounding.owl">
+<!ENTITY moregr "http://on.cs.unibas.ch/owl-s/1.2/MoreGroundings.owl">
+]>
+<rdf:RDF
+    xmlns:rdf="&rdf;#"
+    xmlns:rdfs="&rdfs;#"
+    xmlns:owl="&owl;#"
+    xmlns:xsd="&xsd;#"
+    xmlns:service="&service;#"
+    xmlns:profile="&profile;#"
+    xmlns:process="&process;#"
+    xmlns:grounding="&grounding;#"
+    xmlns:moregr="&moregr;#"
+    xml:base="http://bananaforscale.org/owls/services/1.2/primitive_java_grounding_example.owls">
+
+    <owl:Ontology rdf:about="">
+        <owl:imports rdf:resource="&profile;"/>
+        <owl:imports rdf:resource="&grounding;"/>
+        <owl:imports rdf:resource="&moregr;"/>
+    </owl:Ontology>
+
+    <!-- Inputs and outputs -->
+    <process:Input rdf:ID="x">
+        <process:parameterType rdf:datatype="&xsd;#anyURI">&xsd;#double</process:parameterType>
+    </process:Input>
+    <process:Input rdf:ID="y">
+        <process:parameterType rdf:datatype="&xsd;#anyURI">&xsd;#double</process:parameterType>
+    </process:Input>
+    <process:Output rdf:ID="z">
+        <process:parameterType rdf:datatype="&xsd;#anyURI">&xsd;#double</process:parameterType>
+    </process:Output>
+
+    <!-- 
+    ============================================================================
+        Add Service
+    ============================================================================
+    -->
+
+    <!-- Addition Service description -->
+    <service:Service rdf:ID="AddService">
+        <service:presents rdf:resource="#AddProfile"/>
+        <service:describedBy rdf:resource="#AddProcess"/>
+        <service:supports rdf:resource="#AddGrounding"/>
+    </service:Service>
+
+    <!-- Addition Profile description -->
+    <profile:Profile rdf:ID="AddProfile">
+        <service:presentedBy rdf:resource="#AddService"/>
+        <profile:serviceName xml:lang="en">Addition Service</profile:serviceName>
+        <profile:textDescription xml:lang="en">
+            This service adds to numbers together
+        </profile:textDescription>
+        <profile:hasInput rdf:resource="#x"/>
+        <profile:hasInput rdf:resource="#y"/>
+        <profile:hasOutput rdf:resource="#z"/>
+    </profile:Profile>
+
+    <!-- Addition Process description -->
+    <process:AtomicProcess rdf:ID="AddProcess">
+        <service:describes rdf:resource="#AddService"/>
+        <process:hasInput rdf:resource="#x"/>
+        <process:hasInput rdf:resource="#y"/>
+        <process:hasOutput rdf:resource="#z"/>
+    </process:AtomicProcess>
+
+    <!-- Addition Grounding description -->
+    <moregr:JavaGrounding rdf:ID="AddGrounding">
+        <service:supportedBy rdf:resource="#AddService"/>
+        <grounding:hasAtomicProcessGrounding rdf:resource="#AddProcessGrounding"/>
+    </moregr:JavaGrounding>
+
+    <!-- Addition Atomic Grounding -->
+    <moregr:JavaAtomicProcessGrounding rdf:ID="AddProcessGrounding">
+        <grounding:owlsProcess rdf:resource="#AddProcess"/>
+        <moregr:javaClass>org.bananaforscale.samples.Operations</moregr:javaClass>
+        <moregr:javaMethod>add</moregr:javaMethod>
+        <moregr:hasJavaParameter>
+            <moregr:JavaParameter rdf:ID="AddIn1">
+                <moregr:javaType>java.lang.Double</moregr:javaType>
+                <moregr:owlsParameter rdf:resource="#x"/>
+                <moregr:paramIndex rdf:datatype="&xsd;#nonNegativeInteger">1</moregr:paramIndex>
+            </moregr:JavaParameter>
+        </moregr:hasJavaParameter>
+        <moregr:hasJavaParameter>
+            <moregr:JavaParameter rdf:ID="AddIn2">
+                <moregr:javaType>java.lang.Double</moregr:javaType>
+                <moregr:owlsParameter rdf:resource="#y"/>
+                <moregr:paramIndex rdf:datatype="&xsd;#nonNegativeInteger">2</moregr:paramIndex>
+            </moregr:JavaParameter>
+        </moregr:hasJavaParameter>
+        <moregr:javaOutput>
+            <moregr:JavaVariable rdf:ID="AddOut">
+                <moregr:javaType>java.lang.Double</moregr:javaType>
+                <moregr:owlsParameter rdf:resource="#z"/>
+            </moregr:JavaVariable>
+        </moregr:javaOutput>
+    </moregr:JavaAtomicProcessGrounding>
+
+    <!-- 
+    ============================================================================
+        Subtract Service
+    ============================================================================
+    -->
+
+    <!-- Subtraction Service description -->
+    <service:Service rdf:ID="SubtractService">
+        <service:presents rdf:resource="#SubtractProfile"/>
+        <service:describedBy rdf:resource="#SubtractProcess"/>
+        <service:supports rdf:resource="#SubtractGrounding"/>
+    </service:Service>
+
+    <!-- Subtraction Profile description -->
+    <profile:Profile rdf:ID="SubtractProfile">
+        <service:presentedBy rdf:resource="#SubtractService"/>
+        <profile:serviceName xml:lang="en">Subtraction Service</profile:serviceName>
+        <profile:textDescription xml:lang="en">
+            This service subtracts one number from another
+        </profile:textDescription>
+        <profile:hasInput rdf:resource="#x"/>
+        <profile:hasInput rdf:resource="#y"/>
+        <profile:hasOutput rdf:resource="#z"/>
+    </profile:Profile>
+
+    <!-- Subtraction Process description -->
+    <process:AtomicProcess rdf:ID="SubtractProcess">
+        <service:describes rdf:resource="#SubtractService"/>
+        <process:hasInput rdf:resource="#x"/>
+        <process:hasInput rdf:resource="#y"/>
+        <process:hasOutput rdf:resource="#z"/>
+    </process:AtomicProcess>
+
+    <!-- Subtraction Grounding description -->
+    <moregr:JavaGrounding rdf:ID="SubtractGrounding">
+        <service:supportedBy rdf:resource="#SubtractService"/>
+        <grounding:hasAtomicProcessGrounding rdf:resource="#SubtractProcessGrounding"/>
+    </moregr:JavaGrounding>
+
+    <!-- Subtraction Atomic Grounding -->
+    <moregr:JavaAtomicProcessGrounding rdf:ID="SubtractProcessGrounding">
+        <grounding:owlsProcess rdf:resource="#SubtractProcess"/>
+        <moregr:javaClass>org.bananaforscale.samples.Operations</moregr:javaClass>
+        <moregr:javaMethod>subtract</moregr:javaMethod>
+        <moregr:hasJavaParameter>
+            <moregr:JavaParameter rdf:ID="SubIn1">
+                <moregr:javaType>java.lang.Double</moregr:javaType>
+                <moregr:owlsParameter rdf:resource="#x"/>
+                <moregr:paramIndex rdf:datatype="&xsd;#nonNegativeInteger">1</moregr:paramIndex>
+            </moregr:JavaParameter>
+        </moregr:hasJavaParameter>
+        <moregr:hasJavaParameter>
+            <moregr:JavaParameter rdf:ID="SubIn2">
+                <moregr:javaType>java.lang.Double</moregr:javaType>
+                <moregr:owlsParameter rdf:resource="#y"/>
+                <moregr:paramIndex rdf:datatype="&xsd;#nonNegativeInteger">2</moregr:paramIndex>
+            </moregr:JavaParameter>
+        </moregr:hasJavaParameter>
+        <moregr:javaOutput>
+            <moregr:JavaVariable rdf:ID="SubOut">
+                <moregr:javaType>java.lang.Double</moregr:javaType>
+                <moregr:owlsParameter rdf:resource="#z"/>
+            </moregr:JavaVariable>
+        </moregr:javaOutput>
+    </moregr:JavaAtomicProcessGrounding>
+
+    <!-- 
+    ============================================================================
+        Multiply Service
+    ============================================================================
+    -->
+
+    <!-- Multiplication Service description -->
+    <service:Service rdf:ID="MultiplyService">
+        <service:presents rdf:resource="#MultiplyProfile"/>
+        <service:describedBy rdf:resource="#MultiplyProcess"/>
+        <service:supports rdf:resource="#MultiplyGrounding"/>
+    </service:Service>
+
+    <!-- Multiplication Profile description -->
+    <profile:Profile rdf:ID="MultiplyProfile">
+        <service:presentedBy rdf:resource="#MultiplyService"/>
+        <profile:serviceName xml:lang="en">Multiplyion Service</profile:serviceName>
+        <profile:textDescription xml:lang="en">
+            This service multiples one number with another
+        </profile:textDescription>
+        <profile:hasInput rdf:resource="#x"/>
+        <profile:hasInput rdf:resource="#y"/>
+        <profile:hasOutput rdf:resource="#z"/>
+    </profile:Profile>
+
+    <!-- Multiplication Process description -->
+    <process:AtomicProcess rdf:ID="MultiplyProcess">
+        <service:describes rdf:resource="#MultiplyService"/>
+        <process:hasInput rdf:resource="#x"/>
+        <process:hasInput rdf:resource="#y"/>
+        <process:hasOutput rdf:resource="#z"/>
+    </process:AtomicProcess>
+
+    <!-- Multiplication Grounding description -->
+    <moregr:JavaGrounding rdf:ID="MultiplyGrounding">
+        <service:supportedBy rdf:resource="#MultiplyService"/>
+        <grounding:hasAtomicProcessGrounding rdf:resource="#MultiplyProcessGrounding"/>
+    </moregr:JavaGrounding>
+
+    <!-- Multiplication Atomic Grounding -->
+    <moregr:JavaAtomicProcessGrounding rdf:ID="MultiplyProcessGrounding">
+        <grounding:owlsProcess rdf:resource="#MultiplyProcess"/>
+        <moregr:javaClass>org.bananaforscale.samples.Operations</moregr:javaClass>
+        <moregr:javaMethod>multiply</moregr:javaMethod>
+        <moregr:hasJavaParameter>
+            <moregr:JavaParameter rdf:ID="MulIn1">
+                <moregr:javaType>java.lang.Double</moregr:javaType>
+                <moregr:owlsParameter rdf:resource="#x"/>
+                <moregr:paramIndex rdf:datatype="&xsd;#nonNegativeInteger">1</moregr:paramIndex>
+            </moregr:JavaParameter>
+        </moregr:hasJavaParameter>
+        <moregr:hasJavaParameter>
+            <moregr:JavaParameter rdf:ID="MulIn2">
+                <moregr:javaType>java.lang.Double</moregr:javaType>
+                <moregr:owlsParameter rdf:resource="#y"/>
+                <moregr:paramIndex rdf:datatype="&xsd;#nonNegativeInteger">2</moregr:paramIndex>
+            </moregr:JavaParameter>
+        </moregr:hasJavaParameter>
+        <moregr:javaOutput>
+            <moregr:JavaVariable rdf:ID="MulOut">
+                <moregr:javaType>java.lang.Double</moregr:javaType>
+                <moregr:owlsParameter rdf:resource="#z"/>
+            </moregr:JavaVariable>
+        </moregr:javaOutput>
+    </moregr:JavaAtomicProcessGrounding>
+
+    <!-- 
+    ============================================================================
+        Divide Service
+    ============================================================================
+    -->
+
+    <!-- Division Service description -->
+    <service:Service rdf:ID="DivideService">
+        <service:presents rdf:resource="#DivideProfile"/>
+        <service:describedBy rdf:resource="#DivideProcess"/>
+        <service:supports rdf:resource="#DivideGrounding"/>
+    </service:Service>
+
+    <!-- Division Profile description -->
+    <profile:Profile rdf:ID="DivideProfile">
+        <service:presentedBy rdf:resource="#DivideService"/>
+        <profile:serviceName xml:lang="en">Divideion Service</profile:serviceName>
+        <profile:textDescription xml:lang="en">
+            This service divides one number by another
+        </profile:textDescription>
+        <profile:hasInput rdf:resource="#x"/>
+        <profile:hasInput rdf:resource="#y"/>
+        <profile:hasOutput rdf:resource="#z"/>
+    </profile:Profile>
+
+    <!-- Division Process description -->
+    <process:AtomicProcess rdf:ID="DivideProcess">
+        <service:describes rdf:resource="#DivideService"/>
+        <process:hasInput rdf:resource="#x"/>
+        <process:hasInput rdf:resource="#y"/>
+        <process:hasOutput rdf:resource="#z"/>
+    </process:AtomicProcess>
+
+    <!-- Division Grounding description -->
+    <moregr:JavaGrounding rdf:ID="DivideGrounding">
+        <service:supportedBy rdf:resource="#DivideService"/>
+        <grounding:hasAtomicProcessGrounding rdf:resource="#DivideProcessGrounding"/>
+    </moregr:JavaGrounding>
+
+    <!-- Division Atomic Grounding -->
+    <moregr:JavaAtomicProcessGrounding rdf:ID="DivideProcessGrounding">
+        <grounding:owlsProcess rdf:resource="#DivideProcess"/>
+        <moregr:javaClass>org.bananaforscale.samples.Operations</moregr:javaClass>
+        <moregr:javaMethod>divide</moregr:javaMethod>
+        <moregr:hasJavaParameter>
+            <moregr:JavaParameter rdf:ID="DivIn1">
+                <moregr:javaType>java.lang.Double</moregr:javaType>
+                <moregr:owlsParameter rdf:resource="#x"/>
+                <moregr:paramIndex rdf:datatype="&xsd;#nonNegativeInteger">1</moregr:paramIndex>
+            </moregr:JavaParameter>
+        </moregr:hasJavaParameter>
+        <moregr:hasJavaParameter>
+            <moregr:JavaParameter rdf:ID="DivIn2">
+                <moregr:javaType>java.lang.Double</moregr:javaType>
+                <moregr:owlsParameter rdf:resource="#y"/>
+                <moregr:paramIndex rdf:datatype="&xsd;#nonNegativeInteger">2</moregr:paramIndex>
+            </moregr:JavaParameter>
+        </moregr:hasJavaParameter>
+        <moregr:javaOutput>
+            <moregr:JavaVariable rdf:ID="DivOut">
+                <moregr:javaType>java.lang.Double</moregr:javaType>
+                <moregr:owlsParameter rdf:resource="#z"/>
+            </moregr:JavaVariable>
+        </moregr:javaOutput>
+    </moregr:JavaAtomicProcessGrounding>
+
+</rdf:RDF>

@@ -1,0 +1,87 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.bananaforscale.owls.validation</groupId>
+        <artifactId>lib</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <groupId>org.bananaforscale.owls.validation.lib</groupId>
+    <artifactId>owls-samples</artifactId>
+    <packaging>jar</packaging>
+    <name>OWL-S Validation Project - Libraries - OWL-S Samples</name>
+    
+
+    <dependencies>
+        <!-- Project dependencies -->
+        <dependency>
+            <groupId>org.bananaforscale.owls.validation.lib</groupId>
+            <artifactId>sample-bindings</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.bananaforscale.owls.validation.lib</groupId>
+            <artifactId>wsdl-bindings</artifactId>
+        </dependency>
+        
+        <!-- 3rd party dependencies -->  
+        <dependency>
+            <groupId>org.mindswap</groupId>
+            <artifactId>owls-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+        </dependency>
+    </dependencies>
+    
+    
+    
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>shade-package</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/owls-samples</outputDirectory>
+                            <finalName>owls-samples-standalone</finalName>
+                            <!-- ensure the shaded jar becomes the project output/artifact by
+                            specifying false for the "shadedArtifactAttached" property and also not 
+                            specifying a "finalName" property. If you do want to specify a "finalName"
+                            property, then you must specify true for the "shadedArtifactAttached", 
+                            otherwise no shaded jar will appear in the maven repository. -->                            
+                            <shadedArtifactAttached>false</shadedArtifactAttached>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                            <mainClass>org.bananaforscape.ExampleDriver</mainClass>
+                        </manifest>
+                        <manifestEntries>
+                            <Commit>${buildNumber}</Commit>
+                            <Branch>${scmBranch}</Branch>
+                            <Build-Time>${maven.build.timestamp}</Build-Time>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    
+</project>

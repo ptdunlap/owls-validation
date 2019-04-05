@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:tns="http://bindings.bananaforscale.org"
+            targetNamespace="http://bindings.bananaforscale.org"
+            elementFormDefault="qualified">
+
+    <!-- Elements -->
+    <xsd:element name="Person" type="tns:PersonType"/>
+    <xsd:element name="Employee" type="tns:EmployeeType"/>
+    
+    <!-- Complex Types -->
+    <xsd:complexType name="PersonType">
+        <xsd:sequence>
+            <xsd:element minOccurs="0" name="address" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="age" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="height" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="name" type="xsd:string"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="EmployeeType">
+        <xsd:sequence>
+            <xsd:element minOccurs="0" name="address" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="id" type="xsd:int"/>
+            <xsd:element minOccurs="0" name="name" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="position" type="xsd:string"/>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>
