@@ -8,6 +8,8 @@
 <!ENTITY profile "http://www.daml.org/services/owl-s/1.2/Profile.owl">
 <!ENTITY process "http://www.daml.org/services/owl-s/1.2/Process.owl">
 <!ENTITY grounding "http://www.daml.org/services/owl-s/1.2/Grounding.owl">
+<!ENTITY bfs "http://soap.bananaforscale.org">
+<!ENTITY wsdl "http://localhost:8080/owls-validation/EmployeeService?wsdl">
 ]>
 <rdf:RDF
     xmlns:rdf="&rdf;#"
@@ -27,7 +29,7 @@
 
     <!-- Inputs and outputs -->
     <process:Input rdf:ID="Person">
-        <process:parameterType rdf:datatype="&xsd;#anyURI">&owl;#Thing</process:parameterType>
+        <process:parameterType rdf:datatype="&xsd;#anyURI">http://bananforscale.org/owl#Person</process:parameterType>
         <rdfs:label>{"format": "xml", "dataType":"org.bananaforscale.bindings.PersonType"}</rdfs:label>
     </process:Input>
     <process:Output rdf:ID="Employee">
@@ -73,26 +75,27 @@
     </grounding:WsdlGrounding>
 
     <!-- Employee Atomic Grounding -->
-    <grounding:WsdlAtomicProcessGrounding rdf:about="#EmployeeProcessGrounding">
+    <grounding:WsdlAtomicProcessGrounding rdf:ID="EmployeeProcessGrounding">
         <grounding:owlsProcess rdf:resource="#EmployeeProcess"/>
         <grounding:wsdlInput>
             <grounding:WsdlInputMessageMap>
-                <grounding:wsdlMessagePart rdf:datatype="&xsd;#anyURI">http://localhost:8080/owls-validation/EmployeeService?wsdl#person</grounding:wsdlMessagePart>
+                <grounding:wsdlMessagePart rdf:datatype="&xsd;#anyURI">&wsdl;#person</grounding:wsdlMessagePart>
                 <grounding:owlsParameter rdf:resource="#Person"/>
             </grounding:WsdlInputMessageMap>
         </grounding:wsdlInput>
         <grounding:wsdlOutput>
             <grounding:WsdlOutputMessageMap>
-                <grounding:wsdlMessagePart rdf:datatype="&xsd;#anyURI">http://localhost:8080/owls-validation/EmployeeService?wsdl#employee</grounding:wsdlMessagePart>
+                <grounding:wsdlMessagePart rdf:datatype="&xsd;#anyURI">&wsdl;#employee</grounding:wsdlMessagePart>
                 <grounding:owlsParameter rdf:resource="#Employee"/>
             </grounding:WsdlOutputMessageMap>
         </grounding:wsdlOutput>
-        <grounding:wsdlOutputMessage rdf:datatype="&xsd;#anyURI">http://soap.bananaforscale.org#enrollResponse</grounding:wsdlOutputMessage>
-        <grounding:wsdlInputMessage rdf:datatype="&xsd;#anyURI">http://soap.bananaforscale.org#enroll</grounding:wsdlInputMessage>
-        <grounding:wsdlDocument rdf:datatype="&xsd;#anyURI">http://localhost:8080/owls-validation/EmployeeService?wsdl</grounding:wsdlDocument>
+        <grounding:wsdlOutputMessage rdf:datatype="&xsd;#anyURI">&bfs;#enrollResponse</grounding:wsdlOutputMessage>
+        <grounding:wsdlInputMessage rdf:datatype="&xsd;#anyURI">&bfs;#enroll</grounding:wsdlInputMessage>
+        <grounding:wsdlDocument rdf:datatype="&xsd;#anyURI">&wsdl;</grounding:wsdlDocument>
         <grounding:wsdlOperation>
             <grounding:WsdlOperationRef>
-                <grounding:operation rdf:datatype="&xsd;#anyURI">http://localhost:8080/owls-validation/EmployeeService?wsdl#enroll</grounding:operation>
+                <grounding:portType rdf:datatype="&xsd;#anyURI">&wsdl;#EmployeePortType</grounding:portType>
+                <grounding:operation rdf:datatype="&xsd;#anyURI">&wsdl;#enroll</grounding:operation>
             </grounding:WsdlOperationRef>
         </grounding:wsdlOperation>
     </grounding:WsdlAtomicProcessGrounding>

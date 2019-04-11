@@ -10,6 +10,7 @@
 <!ENTITY grounding "http://www.daml.org/services/owl-s/1.2/Grounding.owl">
 <!ENTITY restful "http://solutio.in/owlsrestful/RESTfulGrounding.owl">
 <!ENTITY wadl "http://bananaforscale.org/owls-validation/owls-validation.wadl">
+<!ENTITY wadlDocument "http://localhost:8080/owls-validation/owls-validation.wadl">
 ]>
 <rdf:RDF
     xmlns:rdf="&rdf;#"
@@ -57,7 +58,7 @@
     <!-- Addition Profile description -->
     <profile:Profile rdf:ID="AddProfile">
         <service:presentedBy rdf:resource="#AddService"/>
-        <profile:serviceName xml:lang="en">Addition Service</profile:serviceName>
+        <profile:serviceName xml:lang="en">Add Service</profile:serviceName>
         <profile:textDescription xml:lang="en">
             This service adds to numbers together
         </profile:textDescription>
@@ -105,9 +106,7 @@
                 <restful:method rdf:datatype="&xsd;#anyURI">&wadl;#add</restful:method>
             </restful:WadlResourceMethodRef>
         </restful:wadlResourceMethod>
-        <restful:wadlDocument rdf:datatype="&xsd;#anyURI">
-            http://localhost:8080/owls-validation/owls-validation.wadl
-        </restful:wadlDocument>
+        <restful:wadlDocument rdf:datatype="&xsd;#anyURI">&wadlDocument;</restful:wadlDocument>
         <!-- Request Parameters -->
         <restful:wadlRequestParam rdf:resource="#wadlAddx" />
         <restful:wadlRequestParam rdf:resource="#wadlAddy"/>
@@ -179,9 +178,7 @@
                 <restful:method rdf:datatype="&xsd;#anyURI">&wadl;#subtract</restful:method>
             </restful:WadlResourceMethodRef>
         </restful:wadlResourceMethod>
-        <restful:wadlDocument rdf:datatype="&xsd;#anyURI">
-            http://localhost:8080/owls-validation/owls-validation.wadl
-        </restful:wadlDocument>
+        <restful:wadlDocument rdf:datatype="&xsd;#anyURI">&wadlDocument;</restful:wadlDocument>
         <!-- Request Parameters -->
         <restful:wadlRequestParam rdf:resource="#wadlSubtractx" />
         <restful:wadlRequestParam rdf:resource="#wadlSubtracty"/>
@@ -253,9 +250,7 @@
                 <restful:method rdf:datatype="&xsd;#anyURI">&wadl;#multiply</restful:method>
             </restful:WadlResourceMethodRef>
         </restful:wadlResourceMethod>
-        <restful:wadlDocument rdf:datatype="&xsd;#anyURI">
-            http://localhost:8080/owls-validation/owls-validation.wadl
-        </restful:wadlDocument>
+        <restful:wadlDocument rdf:datatype="&xsd;#anyURI">&wadlDocument;</restful:wadlDocument>
         <!-- Request Parameters -->
         <restful:wadlRequestParam rdf:resource="#wadlMultiplyx" />
         <restful:wadlRequestParam rdf:resource="#wadlMultiplyy"/>
@@ -327,9 +322,7 @@
                 <restful:method rdf:datatype="&xsd;#anyURI">&wadl;#divide</restful:method>
             </restful:WadlResourceMethodRef>
         </restful:wadlResourceMethod>
-        <restful:wadlDocument rdf:datatype="&xsd;#anyURI">
-            http://localhost:8080/owls-validation/owls-validation.wadl
-        </restful:wadlDocument>
+        <restful:wadlDocument rdf:datatype="&xsd;#anyURI">&wadlDocument;</restful:wadlDocument>
         <!-- Request Parameters -->
         <restful:wadlRequestParam rdf:resource="#wadlDividex" />
         <restful:wadlRequestParam rdf:resource="#wadlDividey"/>

@@ -31,12 +31,15 @@
     <!-- Inputs and outputs -->
     <process:Input rdf:ID="x">
         <process:parameterType rdf:datatype="&xsd;#anyURI">&xsd;#double</process:parameterType>
+        <rdfs:label>{"format": "primitive", "dataType":"java.lang.Double"}</rdfs:label>
     </process:Input>
     <process:Input rdf:ID="y">
         <process:parameterType rdf:datatype="&xsd;#anyURI">&xsd;#double</process:parameterType>
+        <rdfs:label>{"format": "primitive", "dataType":"java.lang.Double"}</rdfs:label>
     </process:Input>
     <process:Output rdf:ID="z">
         <process:parameterType rdf:datatype="&xsd;#anyURI">&xsd;#double</process:parameterType>
+        <rdfs:label>{"format": "primitive", "dataType":"java.lang.Double"}</rdfs:label>
     </process:Output>
 
     <!-- 
@@ -55,7 +58,7 @@
     <!-- Addition Profile description -->
     <profile:Profile rdf:ID="AddProfile">
         <service:presentedBy rdf:resource="#AddService"/>
-        <profile:serviceName xml:lang="en">Addition Service</profile:serviceName>
+        <profile:serviceName xml:lang="en">Add Service</profile:serviceName>
         <profile:textDescription xml:lang="en">
             This service adds to numbers together
         </profile:textDescription>
@@ -121,7 +124,7 @@
     <!-- Subtraction Profile description -->
     <profile:Profile rdf:ID="SubtractProfile">
         <service:presentedBy rdf:resource="#SubtractService"/>
-        <profile:serviceName xml:lang="en">Subtraction Service</profile:serviceName>
+        <profile:serviceName xml:lang="en">Subtract Service</profile:serviceName>
         <profile:textDescription xml:lang="en">
             This service subtracts one number from another
         </profile:textDescription>
@@ -187,7 +190,7 @@
     <!-- Multiplication Profile description -->
     <profile:Profile rdf:ID="MultiplyProfile">
         <service:presentedBy rdf:resource="#MultiplyService"/>
-        <profile:serviceName xml:lang="en">Multiplyion Service</profile:serviceName>
+        <profile:serviceName xml:lang="en">Multiply Service</profile:serviceName>
         <profile:textDescription xml:lang="en">
             This service multiples one number with another
         </profile:textDescription>
@@ -253,7 +256,7 @@
     <!-- Division Profile description -->
     <profile:Profile rdf:ID="DivideProfile">
         <service:presentedBy rdf:resource="#DivideService"/>
-        <profile:serviceName xml:lang="en">Divideion Service</profile:serviceName>
+        <profile:serviceName xml:lang="en">Divide Service</profile:serviceName>
         <profile:textDescription xml:lang="en">
             This service divides one number by another
         </profile:textDescription>
