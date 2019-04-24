@@ -31,11 +31,11 @@
     <!-- Inputs and outputs -->
     <process:Input rdf:ID="Person">
         <process:parameterType rdf:datatype="&xsd;#anyURI">&owl;#Thing</process:parameterType>
-        <rdfs:label>{"format": "json", "dataType":"org.bananaforscale.samples.Person"}</rdfs:label>
+        <rdfs:label>{"version":"1.0", "format": "java", "dataType":"org.bananaforscale.samples.Person"}</rdfs:label>
     </process:Input>
     <process:Output rdf:ID="Employee">
         <process:parameterType rdf:datatype="&xsd;#anyURI">&owl;#Thing</process:parameterType>
-        <rdfs:label>{"format": "json", "dataType":"org.bananaforscale.samples.Employee"}</rdfs:label>
+        <rdfs:label>{"version":"1.0", "format": "java", "dataType":"org.bananaforscale.samples.Employee"}</rdfs:label>
     </process:Output>
 
     <!-- 

@@ -30,27 +30,27 @@
     <!-- Inputs and outputs -->
     <process:Input rdf:ID="x">
         <process:parameterType rdf:datatype="&xsd;#anyURI">&xsd;#double</process:parameterType>
-        <rdfs:label>x</rdfs:label>
+        <rdfs:label>{"version":"1.0", "format": "primitive", "dataType":"java.lang.Double"}</rdfs:label>
     </process:Input>
     <process:Input rdf:ID="y">
         <process:parameterType rdf:datatype="&xsd;#anyURI">&xsd;#double</process:parameterType>
-        <rdfs:label>y</rdfs:label>
+        <rdfs:label>{"version":"1.0", "format": "primitive", "dataType":"java.lang.Double"}</rdfs:label>
     </process:Input>
     <process:Output rdf:ID="zAdd">
         <process:parameterType rdf:datatype="&xsd;#anyURI">&xsd;#double</process:parameterType>
-        <rdfs:label>{"format": "xml", "dataType":"org.bananaforscale.soap.AddResponse"}</rdfs:label>
+        <rdfs:label>{"version":"1.0", "format": "xml", "dataType":"org.bananaforscale.soap.AddResponse"}</rdfs:label>
     </process:Output>
     <process:Output rdf:ID="zSub">
         <process:parameterType rdf:datatype="&xsd;#anyURI">&xsd;#double</process:parameterType>
-        <rdfs:label>{"format": "xml", "dataType":"org.bananaforscale.soap.SubtractResponse"}</rdfs:label>
+        <rdfs:label>{"version":"1.0","format": "xml", "dataType":"org.bananaforscale.soap.SubtractResponse"}</rdfs:label>
     </process:Output>
     <process:Output rdf:ID="zMul">
         <process:parameterType rdf:datatype="&xsd;#anyURI">&xsd;#double</process:parameterType>
-        <rdfs:label>{"format": "xml", "dataType":"org.bananaforscale.soap.MultiplyResponse"}</rdfs:label>
+        <rdfs:label>{"version":"1.0","format": "xml", "dataType":"org.bananaforscale.soap.MultiplyResponse"}</rdfs:label>
     </process:Output>
     <process:Output rdf:ID="zDiv">
         <process:parameterType rdf:datatype="&xsd;#anyURI">&xsd;#double</process:parameterType>
-        <rdfs:label>{"format": "xml", "dataType":"org.bananaforscale.soap.DivideResponse"}</rdfs:label>
+        <rdfs:label>{"version":"1.0","format": "xml", "dataType":"org.bananaforscale.soap.DivideResponse"}</rdfs:label>
     </process:Output>
 
     <!-- 

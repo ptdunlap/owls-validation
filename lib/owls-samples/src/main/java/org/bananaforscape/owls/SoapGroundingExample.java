@@ -25,13 +25,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.io.FileUtils;
-import org.bananaforscale.bindings.EmployeeType;
 import org.bananaforscale.bindings.PersonType;
 import org.bananaforscale.owls.util.ExecutionUtil;
-import org.bananaforscale.soap.AddResponse;
-import org.bananaforscale.soap.DivideResponse;
-import org.bananaforscale.soap.MultiplyResponse;
-import org.bananaforscale.soap.SubtractResponse;
 import org.mindswap.exceptions.ExecutionException;
 
 /**
@@ -73,37 +68,25 @@ public class SoapGroundingExample {
                     key = "zAdd";
                     resultMap = ExecutionUtil.executeService(ontologyURI,
                             serviceURI, inputMap, Arrays.asList(new String[]{key}));
-                    if (resultMap.get(key) instanceof AddResponse) {
-                        AddResponse add = (AddResponse) resultMap.get(key);
-                        System.out.println("add: " + add.getReturn());
-                    }
+                    System.out.println(resultMap.get(key));
                     break;
                 case "SubtractService":
                     key = "zSub";
                     resultMap = ExecutionUtil.executeService(ontologyURI,
                             serviceURI, inputMap, Arrays.asList(new String[]{key}));
-                    if (resultMap.get(key) instanceof SubtractResponse) {
-                        SubtractResponse sub = (SubtractResponse) resultMap.get(key);
-                        System.out.println("sub: " + sub.getReturn());
-                    }
+                    System.out.println(resultMap.get(key));
                     break;
                 case "MultiplyService":
                     key = "zMul";
                     resultMap = ExecutionUtil.executeService(ontologyURI,
                             serviceURI, inputMap, Arrays.asList(new String[]{key}));
-                    if (resultMap.get(key) instanceof MultiplyResponse) {
-                        MultiplyResponse mul = (MultiplyResponse) resultMap.get(key);
-                        System.out.println("mul: " + mul.getReturn());
-                    }
+                    System.out.println(resultMap.get(key));
                     break;
                 case "DivideService":
                     key = "zDiv";
                     resultMap = ExecutionUtil.executeService(ontologyURI,
                             serviceURI, inputMap, Arrays.asList(new String[]{key}));
-                    if (resultMap.get(key) instanceof DivideResponse) {
-                        DivideResponse div = (DivideResponse) resultMap.get(key);
-                        System.out.println("div: " + div.getReturn());
-                    }
+                    System.out.println(resultMap.get(key));
                     break;
                 default:
                     break;
@@ -141,10 +124,7 @@ public class SoapGroundingExample {
         for (String key : resultMap.keySet()) {
             switch (serviceURI.getFragment()) {
                 case "EmployeeService":
-                    if (resultMap.get(key) instanceof EmployeeType) {
-                        EmployeeType empType = (EmployeeType) resultMap.get(key);
-                        System.out.println(empType.getName());
-                    }
+                    System.out.println(resultMap.get(key));
                     break;
                 default:
                     break;

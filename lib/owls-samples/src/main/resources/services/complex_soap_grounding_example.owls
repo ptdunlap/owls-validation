@@ -29,12 +29,12 @@
 
     <!-- Inputs and outputs -->
     <process:Input rdf:ID="Person">
-        <process:parameterType rdf:datatype="&xsd;#anyURI">http://bananforscale.org/owl#Person</process:parameterType>
-        <rdfs:label>{"format": "xml", "dataType":"org.bananaforscale.bindings.PersonType"}</rdfs:label>
+        <process:parameterType rdf:datatype="&xsd;#anyURI">&owl;#Thing</process:parameterType>
+        <rdfs:label>{"version":"1.0", "format": "xml", "dataType":"org.bananaforscale.bindings.PersonType"}</rdfs:label>
     </process:Input>
     <process:Output rdf:ID="Employee">
         <process:parameterType rdf:datatype="&xsd;#anyURI">&owl;#Thing</process:parameterType>
-        <rdfs:label>{"format": "xml", "dataType":"org.bananaforscale.bindings.EmployeeType"}</rdfs:label>
+        <rdfs:label>{"version":"1.0", "format": "xml", "dataType":"org.bananaforscale.bindings.EmployeeType"}</rdfs:label>
     </process:Output>
 
     <!-- 

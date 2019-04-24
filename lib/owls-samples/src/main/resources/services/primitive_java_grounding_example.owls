@@ -31,15 +31,15 @@
     <!-- Inputs and outputs -->
     <process:Input rdf:ID="x">
         <process:parameterType rdf:datatype="&xsd;#anyURI">&xsd;#double</process:parameterType>
-        <rdfs:label>{"format": "primitive", "dataType":"java.lang.Double"}</rdfs:label>
+        <rdfs:label>{"version":"1.0", "format": "primitive", "dataType":"java.lang.Double"}</rdfs:label>
     </process:Input>
     <process:Input rdf:ID="y">
         <process:parameterType rdf:datatype="&xsd;#anyURI">&xsd;#double</process:parameterType>
-        <rdfs:label>{"format": "primitive", "dataType":"java.lang.Double"}</rdfs:label>
+        <rdfs:label>{"version":"1.0", "format": "primitive", "dataType":"java.lang.Double"}</rdfs:label>
     </process:Input>
     <process:Output rdf:ID="z">
         <process:parameterType rdf:datatype="&xsd;#anyURI">&xsd;#double</process:parameterType>
-        <rdfs:label>{"format": "primitive", "dataType":"java.lang.Double"}</rdfs:label>
+        <rdfs:label>{"version":"1.0", "format": "primitive", "dataType":"java.lang.Double"}</rdfs:label>
     </process:Output>
 
     <!-- 
